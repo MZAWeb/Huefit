@@ -1,7 +1,7 @@
 [project]
 name = "hue"
 version = "0.1.0"
-description = "Add your description here"
+description = "Sync Philips Hue lights to your shirt color using webcam and OpenAI vision"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
