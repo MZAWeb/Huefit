@@ -1,0 +1,12 @@
+[project]
+name = "hue"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "opencv-python>=4.5.0",
+    "numpy>=1.19.0",
+    "phue>=1.2.1",
+    "requests>=2.25.0",
+]
