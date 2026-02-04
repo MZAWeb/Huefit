@@ -2,7 +2,7 @@
 # Description: This script captures video from your webcam,
 # uses the OpenAI API to identify the color of your shirt,
 # and sets your Philips Hue lights in a specified room to match that color
-# at maximum brightness.
+# at a configurable brightness level.
 
 import cv2
 import numpy as np
@@ -180,10 +180,10 @@ def get_dominant_color_from_openai(frame, api_key, model, api_url):
         print(f"An unexpected error occurred during OpenAI API call: {e}")
         return None
 
-def set_hue_lights_color(bridge, rgb_color_tuple, target_room_name):
+def set_hue_lights_color(bridge, rgb_color_tuple, target_room_name, brightness_pct):
     """
     Sets the color of Hue lights in the specified room using XY and Brightness.
-    Brightness will be forced to maximum (254).
+    brightness_pct is 0-100 and maps to the Hue API range 1-254.
     """
     if not bridge:
         print("Hue Bridge not connected. Cannot set light color.")
@@ -197,12 +197,12 @@ def set_hue_lights_color(bridge, rgb_color_tuple, target_room_name):
 
     r, g, b = rgb_color_tuple
 
-    xy_coords, original_calculated_brightness = _convert_rgb_to_xy_bri(r, g, b)
+    xy_coords, _ = _convert_rgb_to_xy_bri(r, g, b)
 
-    brightness = 254
+    brightness = max(1, min(254, round(brightness_pct / 100.0 * 254)))
 
     print(f"Converted RGB({r},{g},{b}) to XY: {xy_coords}.")
-    print(f"Original calculated brightness was: {original_calculated_brightness}. Setting to MAX brightness: {brightness}.")
+    print(f"Setting brightness to {brightness_pct}% (Hue value: {brightness}).")
 
     command = {
         'on': True,
@@ -235,6 +235,7 @@ def main():
     bridge_ip = config.get('hue', 'bridge_ip')
     bridge_username = config.get('hue', 'bridge_username')
     target_room = config.get('hue', 'room')
+    brightness_pct = config.getint('hue', 'brightness', fallback=100)
     openai_api_key = config.get('openai', 'api_key')
     openai_model = config.get('openai', 'model')
     openai_api_url = config.get('openai', 'api_url')
@@ -250,7 +251,7 @@ def main():
     print(" T-Shirt Color (via OpenAI API) to Hue Lights Sync (Room Mode) ")
     print("-----------------------------------------------------------------")
     print(f"This script uses your webcam and OpenAI API ({openai_model}) to detect your shirt color")
-    print(f"and sets Philips Hue lights in the room '{target_room}' accordingly at MAX brightness.")
+    print(f"and sets Philips Hue lights in the room '{target_room}' accordingly at {brightness_pct}% brightness.")
     print("-----------------------------------------------------------------\n")
 
     bridge = connect_to_hue_bridge(bridge_ip, bridge_username, config)
@@ -322,7 +323,7 @@ def main():
             show_processing_message = False
 
             if detected_rgb_color:
-                set_hue_lights_color(bridge, detected_rgb_color, target_room)
+                set_hue_lights_color(bridge, detected_rgb_color, target_room, brightness_pct)
             else:
                 print("Could not determine color using OpenAI API. Try again or check API key/quota.")
 

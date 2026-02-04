@@ -2,6 +2,7 @@
 bridge_ip =
 bridge_username =
 room = Office
+brightness = 100
 
 [openai]
 api_key =
