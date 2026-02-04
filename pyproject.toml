@@ -7,6 +7,6 @@ requires-python = ">=3.14"
 dependencies = [
     "opencv-python>=4.5.0",
     "numpy>=1.19.0",
-    "phue>=1.2.1",
+    "phue>=1.1",
     "requests>=2.25.0",
 ]
