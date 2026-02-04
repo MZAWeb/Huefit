@@ -32,7 +32,7 @@ PHUE_CONFIG_FILE = 'phue_bridge.conf' # For phue library
 OPENAI_API_KEY = '' # Leave empty to be prompted, or set your key here.
 USER_OPENAI_KEY_CONFIG_FILE = 'openai_api_key.txt'
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
-OPENAI_MODEL = "gpt-4o"
+OPENAI_MODEL = "gpt-5.2"
 
 # !!! NEW: Specify the Hue Room to control !!!
 TARGET_HUE_ROOM_NAME = "Office" # Change this to your desired Hue Room name

@@ -1,12 +1,12 @@
 # Hue
 
-Capture video from your webcam, detect your shirt color using OpenAI's GPT-4o vision API, and automatically set your Philips Hue lights to match — at maximum brightness.
+Capture video from your webcam, detect your shirt color using OpenAI's GPT-5.2 vision API, and automatically set your Philips Hue lights to match — at maximum brightness.
 
 ## Prerequisites
 
 - Python 3.14+
 - A Philips Hue Bridge on the same network
-- An OpenAI API key with access to GPT-4o
+- An OpenAI API key with access to GPT-5.2
 
 ## Setup
 
